@@ -1,0 +1,33 @@
+# https://phpstan.org/blog/phpstan-2-0-released-level-10-elephpants
+# https://phpstan.org/config-reference#bleeding-edge
+# https://phpstan.org/blog/what-is-bleeding-edge
+# comment the two following lines if you don't want to use the bleedingEdge mode.
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+# https://phpstan.org/config-reference
+parameters:
+    # https://phpstan.org/config-reference#rule-level
+    level: max
+    # https://phpstan.org/config-reference#multiple-files
+    paths:
+        - importmap.php
+#        - bin
+        - config
+        - public
+        - src
+        - tests
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+    # https://github.com/phpstan/phpstan-symfony#configuration
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+        consoleApplicationLoader: tests/console-application.php
+    # @see config/packages/framework.php
+    scanDirectories:
+        - var/cache/dev/Symfony/Config
+    # https://phpstan.org/user-guide/ignoring-errors
+    treatPhpDocTypesAsCertain: false
+    checkMissingCallableSignature: true
+    ignoreErrors:
+        #- '#my_ignore_error_regexp_pattern#'
+        - '#from outside its root namespace#' # @see https://github.com/symfony/symfony/issues/60299
+        - "#Call to function method_exists\\(\\) with 'Symfony\\\\\\\\Component\\\\\\\\Dotenv\\\\\\\\Dotenv' and 'bootEnv' will always evaluate to true.#"
