@@ -50,7 +50,8 @@ When you send a PR, just make sure that:
 * Your PR must include some documentation
 * You make the PR on the same branch you based your changes on. If you see commits
   that you did not make in your PR, you're doing it wrong.
-* Also don't forget to add a comment when you update a PR with a ping to [the maintainers](https://github.com/orgs/parler-haut-interagir-librement/people),
+* Also don't forget to add a comment when you update a PR with a ping to 
+  [the maintainers](https://github.com/orgs/parler-haut-interagir-librement/people),
   so he/she will get a notification.
 * Don't add `@author` doc blocks to the added code
 
@@ -60,10 +61,9 @@ request.
 If there are more than one commit in your PR, they will be automatically be squashed
 when the PR is accepted and merge.
 
-
 # License and Copyright Attribution
 
-When you open a Pull Request to the MicroSymfony project, you agree to license your
+When you open a Pull Request to the Enums project, you agree to license your
 code under the [MIT license](LICENSE) and to transfer the copyright on the submitted
 code to [Parler Haut Interagir Librement](https://github.com/parler-haut-interagir-librement).
 

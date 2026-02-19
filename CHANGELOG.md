@@ -4,7 +4,6 @@ All notable changes to `enum` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-
 ## NEXT - YYYY-MM-DD
 
 ### Added
@@ -25,7 +24,19 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Security
 - Nothing
 
-## 0.1.0 - 2026-02-05
+## 0.1.0 - 2026-02-19
 
 ### Added
 - First implementation of the package
+- AsComparableEnumTrait
+- AsFromambleEnumTrait
+- AsInvocableEnumTrait
+- AsMetadableEnumTrait
+- AsNameableEnumTrait
+- AsValuableEnumTrait
+- AsSelectableEnumTrait
+- AsStringSelectableEnumTrait
+- AsEnumerableEnumTrait
+- Meta
+  - Description
+  - Group

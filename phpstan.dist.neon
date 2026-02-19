@@ -10,20 +10,16 @@ parameters:
     level: max
     # https://phpstan.org/config-reference#multiple-files
     paths:
-        - importmap.php
-#        - bin
-        - config
-        - public
         - src
         - tests
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
     # https://github.com/phpstan/phpstan-symfony#configuration
-    symfony:
-        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
-        consoleApplicationLoader: tests/console-application.php
+    #symfony:
+    #    containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    #    consoleApplicationLoader: tests/console-application.php
     # @see config/packages/framework.php
-    scanDirectories:
-        - var/cache/dev/Symfony/Config
+    #scanDirectories:
+    #    - var/cache/dev/Symfony/Config
     # https://phpstan.org/user-guide/ignoring-errors
     treatPhpDocTypesAsCertain: false
     checkMissingCallableSignature: true
