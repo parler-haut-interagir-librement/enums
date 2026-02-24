@@ -69,4 +69,26 @@ trait AsComparableEnumTrait
         return !self::has($target);
     }
 
+    /**
+     * @param array<self> $enums
+     */
+    public function equalsOneOf(array $enums): bool
+    {
+        foreach ($enums as $value) {
+            if ($this->has($value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array<self> $enums
+     */
+    public function notEqualsOneOf(array $enums): bool
+    {
+        return !$this->equalsOneOf($enums);
+    }
+
 }

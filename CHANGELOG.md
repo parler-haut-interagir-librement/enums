@@ -24,6 +24,27 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Security
 - Nothing
 
+## 0.2.0 - YYYY-MM-DD
+
+### Added
+- Label Meta Property
+- Add equalsOneOf and notEqualsOneOf in AsComparableEnumTrait
+
+### Changed
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.1.0 - 2026-02-19
 
 ### Added
