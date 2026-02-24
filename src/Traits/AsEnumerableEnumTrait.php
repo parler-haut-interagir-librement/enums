@@ -12,4 +12,5 @@ trait AsEnumerableEnumTrait
     use AsComparableEnumTrait;
     use AsFromambleEnumTrait;
     use AsMetadatableEnumTrait;
+    use AsSelfAwareableEnumTrait;
 }
