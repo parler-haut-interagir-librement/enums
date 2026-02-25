@@ -29,11 +29,13 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Added
 - Label Meta Property
 - Add equalsOneOf and notEqualsOneOf in AsComparableEnumTrait
-- Add self-awareness
+- Add AsSelfAwareableEnumTrait : self-awareness 
   * isPure
   * isBacked
   * isBackedByInteger
   * isBackedByString
+- Add PHPStan Extension
+
 
 ### Changed
 - Nothing
