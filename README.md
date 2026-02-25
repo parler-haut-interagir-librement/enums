@@ -32,16 +32,45 @@ A collection of enum helpers for PHP.
 - [Installation](#installation)
 - [Usage](#usage) 
   - [`AsInvocableEnum`](#asinvocableenum)
+    - [Apply the trait on your enum](#apply-the-trait-on-your-enum)
+    - [Use static calls to get the primitive value](#use-static-calls-to-get-the-primitive-value)
+    - [Invoke instances to get the primitive value](#invoke-instances-to-get-the-primitive-value)
   - [`AsNameableEnum`](#asnameableenum)
+      - [Apply the trait on your enum](#apply-the-trait-on-your-enum-1)
+      - [`names()`](#use-the-names-method)
   - [`AsValuableEnum`](#asvaluableenum)
+      - [Apply the trait on your enum](#apply-the-trait-on-your-enum-2)
+      - [`values()`](#use-the-values-method)
   - [`AsSelectableEnum`](#asselectableenum)
+      - [Apply the trait on your enum](#apply-the-trait-on-your-enum-3)
+      - [`options()`](#use-the-options-method)
   - [`AsComparableEnum`](#AsComparableEnum)
+      - [Apply the trait on your enum](#apply-the-trait-on-your-enum-4)
+      - [`is()`](#use-the-is-method)
+      - [`isNot()`](#use-the-isnot-method)
+      - [`in()`](#use-the-in-method)
+      - [`notIn()`](#use-the-notin-method)
   - [`AsFromambleEnum`](#AsFromambleEnum)
+      - [Important Notes](#important-notes)
+      - [Apply the trait on your enum](#apply-the-trait-on-your-enum-5)
+      - [`from()`](#use-the-from-method)
+      - [`tryFrom()`](#use-the-tryfrom-method)
+      - [`fromName()`](#use-the-fromname-method)
+      - [`tryFromName()`](#use-the-tryfromname-method)
   - [`AsMetadableEnum`](#AsMetadableEnum)
+    - [Apply the trait on your enum](#apply-the-trait-on-your-enum-6)
     - [Access the Metadata](#access-the-metadata)
     - [Creating Meta Properties](#creating-meta-properties)
+    - [`fromMeta()`](#use-the-frommeta-method)
+    - [`tryFromMeta()`](#use-the-tryfrommeta-method)
+    - [Included Meta Properties](#included-meta-properties)
+      - [Description](#description)
+      - [Group](#group)
+      - [Label](#label)
     - [Recommandations](#recommendation-use-annotations-and-traits)
   - [`AsStringSelectableEnum`](#asstringselectableenum)
+    - [Apply the trait on your enum](#apply-the-trait-on-your-enum-7)
+    - [`stringOptions()`](#use-the-stringoptions-method)
 - [PHPStan](#phpstan)
 - [Development](#development)
 - [Todo](#todo)
@@ -167,6 +196,7 @@ public function updateStatus(TaskStatus $status, Role $role)
     $this->record->setStatus($status(), $role());
 }
 ```
+
 
 ### AsNameableEnum
 
@@ -457,6 +487,7 @@ class Description extends MetaProperty
 With the code above, the description of a case will be accessible as `TaskStatus::INCOMPLETE->note()`.
 
 Another thing you can customize is the passed value. For instance, to wrap a color name like `text-{$color}-500`, you'd add the following `transform()` method:
+
 ```php
 #[Attribute]
 class Color extends MetaProperty
@@ -491,9 +522,9 @@ TaskStatus::tryFromMeta(Color::make('blue')); // null
 
 ##### Description
 
+##### Group
 
-#### Group
-
+##### Label
 
 #### Recommendation: use annotations and traits
 
@@ -550,17 +581,20 @@ enum Role
 }
 ```
 
-#### stringOptions()
+#### Use the `stringOptions()` method
 
 The trait adds the `stringOptions()` method that can be used for generating convenient string representations of your enum options:
+
 ```php
 // First argument is the callback, second argument is glue
 // returns "INCOMPLETE => 0, COMPLETED => 1, CANCELED => 2"
 TaskStatus::stringOptions(fn ($name, $value) => "$name => $value", ', ');
 ```
+
 For pure enums (non-backed), the name is used in place of `$value` (meaning that both `$name` and `$value` are the same).
 
 Both arguments for this method are optional, the glue defaults to `\n` and the callback defaults to generating HTML `<option>` tags:
+
 ```php
 // <option value="0">Incomplete</option>
 // <option value="1">Completed</option>
@@ -572,7 +606,6 @@ TaskStatus::stringOptions(); // backed enum
 // <option value="GUEST">Guest</option>
 Role::stringOptions(); // pure enum
 ```
-
 
 
 ## PHPStan
