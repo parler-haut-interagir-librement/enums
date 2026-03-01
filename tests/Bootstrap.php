@@ -1,5 +1,4 @@
 <?php
-// tests/bootstrap.php
 
 declare(strict_types=1);
 

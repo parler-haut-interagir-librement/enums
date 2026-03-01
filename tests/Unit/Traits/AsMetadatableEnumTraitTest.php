@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Traits/AsMetadatableEnumTraitTest.php
 
 declare(strict_types=1);
 
@@ -12,6 +11,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ValueError;
 
+/**
+ * @internal
+ */
 final class AsMetadatableEnumTraitTest extends TestCase
 {
     #[Test]

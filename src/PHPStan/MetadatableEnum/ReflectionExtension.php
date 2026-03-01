@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Phil\Enums\PHPStan\MetadatableEnum;
 
 use Phil\Enums\Attribute\Meta;
-use Phil\Enums\Meta\AbstractMetaProperty;
 use Phil\Enums\Traits\AsMetadatableEnumTrait;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionEnum;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
-use ReflectionAttribute;
 
 class ReflectionExtension implements MethodsClassReflectionExtension
 {
@@ -30,7 +28,7 @@ class ReflectionExtension implements MethodsClassReflectionExtension
         // Check if the method name matches any registered meta property
         $metaAttributes = $nativeReflection->getAttributes(Meta::class);
 
-        if ($metaAttributes === []) {
+        if ([] === $metaAttributes) {
             return false;
         }
 

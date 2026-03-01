@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Traits/AsNameableEnumTraitTest.php
 
 declare(strict_types=1);
 
@@ -10,6 +9,9 @@ use Phil\Enums\Tests\Fixtures\PureEnum;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class AsNameableEnumTraitTest extends TestCase
 {
     #[Test]

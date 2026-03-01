@@ -8,6 +8,9 @@ use Phil\Enums\Tests\Fixtures\StringBackedEnum;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class AsStringSelectableEnumTraitTest extends TestCase
 {
     #[Test]

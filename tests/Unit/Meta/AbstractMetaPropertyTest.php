@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Meta/AbstractMetaPropertyTest.php
 
 declare(strict_types=1);
 
@@ -12,6 +11,9 @@ use Phil\Enums\Tests\Fixtures\Attribute\Color;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class AbstractMetaPropertyTest extends TestCase // @phpstan-ignore symplify.explicitAbstractPrefixName
 {
     #[Test]

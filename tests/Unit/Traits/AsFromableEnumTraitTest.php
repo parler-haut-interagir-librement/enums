@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Traits/AsFromambleEnumTraitTest.php
 
 declare(strict_types=1);
 
@@ -11,6 +10,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ValueError;
 
+/**
+ * @internal
+ */
 final class AsFromableEnumTraitTest extends TestCase
 {
     #[Test]

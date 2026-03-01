@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Traits/AsSelectableEnumTraitTest.php
 
 declare(strict_types=1);
 
@@ -10,6 +9,9 @@ use Phil\Enums\Tests\Fixtures\PureEnum;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class AsSelectableEnumTraitTest extends TestCase
 {
     #[Test]

@@ -1,5 +1,4 @@
 <?php
-// tests/Fixtures/MetaEnum.php
 
 declare(strict_types=1);
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Phil\Enums\PHPStan\MetadatableEnum;
 
-use PHPStan\Analyser\OutOfClassScope;
 use PHPStan\Reflection\ClassMemberReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\FunctionVariant;

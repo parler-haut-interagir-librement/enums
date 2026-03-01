@@ -6,7 +6,10 @@ namespace Phil\Enums\Traits;
 
 use Phil\Enums\Meta\AbstractMetaProperty;
 use Phil\Enums\Meta\Reflection;
+use Stringable;
 use ValueError;
+
+use function is_scalar;
 
 trait AsMetadatableEnumTrait
 {
@@ -27,13 +30,11 @@ trait AsMetadatableEnumTrait
     {
         $enumClass = static::class; // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
         $metaClass = $metaProperty::class; // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
-        $value = is_scalar($metaProperty->value) || $metaProperty->value instanceof \Stringable // @phpstan-ignore rector.noInstanceOfStaticReflection
+        $value = is_scalar($metaProperty->value) || $metaProperty->value instanceof Stringable // @phpstan-ignore rector.noInstanceOfStaticReflection
             ? (string) $metaProperty->value
             : get_debug_type($metaProperty->value);
 
-        return static::tryFromMeta($metaProperty) ?? throw new ValueError(
-            'Enum ' . $enumClass . ' does not have a case with a meta property "' . $metaClass . '" of value "' . $value . '"'
-        );
+        return static::tryFromMeta($metaProperty) ?? throw new ValueError('Enum ' . $enumClass . ' does not have a case with a meta property "' . $metaClass . '" of value "' . $value . '"');
     }
 
     /**

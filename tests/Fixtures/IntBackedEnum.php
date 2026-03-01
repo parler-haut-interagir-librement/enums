@@ -1,5 +1,4 @@
 <?php
-// tests/Fixtures/IntBackedEnum.php
 
 declare(strict_types=1);
 
@@ -15,13 +14,13 @@ use Phil\Enums\Traits\AsValuableEnumTrait;
 
 enum IntBackedEnum: int
 {
-    use AsInvocableEnumTrait;
-    use AsNameableEnumTrait;
-    use AsValuableEnumTrait;
-    use AsSelectableEnumTrait;
     use AsComparableEnumTrait;
     use AsFromambleEnumTrait;
+    use AsInvocableEnumTrait;
+    use AsNameableEnumTrait;
+    use AsSelectableEnumTrait;
     use AsSelfAwareableEnumTrait;
+    use AsValuableEnumTrait;
 
     case ONE = 1;
     case TWO = 2;

@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Traits/AsComparableEnumTraitTest.php
 
 declare(strict_types=1);
 
@@ -9,6 +8,9 @@ use Phil\Enums\Tests\Fixtures\PureEnum;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class AsComparableEnumTraitTest extends TestCase
 {
     #[Test]
