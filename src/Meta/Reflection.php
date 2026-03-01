@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Meta;
 
-use Phil\Enums\Traits\AsMetadatableEnumTrait;
 use Phil\Enums\Attribute\Meta;
+use Phil\Enums\Traits\AsMetadatableEnumTrait;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionEnumUnitCase;
