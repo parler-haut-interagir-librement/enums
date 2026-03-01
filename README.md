@@ -786,7 +786,7 @@ Code style will be automatically fixed by php-cs-fixer.
 MIT. See [LICENSE](LICENSE) for details.
 
 
-[ico-author]: https://img.shields.io/badge/author-ph--il-blue?logo=github&style=flat&logoSize=auto
+[ico-author]: https://img.shields.io/badge/author-ph--il-blue?logo=github&style=style=for-the-badge&logoSize=auto
 [ico-php]: https://img.shields.io/packagist/php-v/ph-il/enums?color=%23777BB4&logo=php&style=for-the-badge&logoSize=auto
 [ico-version]: https://img.shields.io/packagist/v/ph-il/enums.svg?label=version&style=for-the-badge&logo=vitess&logoColor=fff&logoSize=auto
 [ico-license]: https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge&logo=lerna&logoColor=fff&logoSize=auto
