@@ -2,7 +2,7 @@
 
 namespace Phil\Enums\Meta;
 
-class AbstractMetaProperty
+abstract class AbstractMetaProperty
 {
     final public function __construct(
         public mixed $value,
@@ -15,7 +15,10 @@ class AbstractMetaProperty
         return null;
     }
 
-    public static function make(mixed $value): static
+    /**
+     * @abstract
+     */
+    public function make(mixed $value): static
     {
         return new static($value);
     }
@@ -27,14 +30,25 @@ class AbstractMetaProperty
         return $value;
     }
 
+    /**
+     * Override this in a child class to explicitly define
+     * the accessor method name (otherwise, it falls back to the class name).
+     */
+    protected static function customMethodName(): ?string
+    {
+        return null;
+    }
+
     /** Get the name of the accessor method */
     public static function method(): string
     {
-        if (property_exists(static::class, 'method')) {
-            return static::${'method'};
+        $custom = static::customMethodName();
+
+        if ($custom !== null && $custom !== '') {
+            return $custom;
         }
 
-        $parts = explode('\\', static::class);
+        $parts = explode('\\', static::class); // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
 
         return lcfirst(end($parts));
     }

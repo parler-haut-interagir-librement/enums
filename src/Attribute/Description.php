@@ -8,6 +8,6 @@ use Phil\Enums\Meta\AbstractMetaProperty;
 use Attribute;
 
 #[Attribute]
-class Description extends AbstractMetaProperty
+final class Description extends AbstractMetaProperty
 {
 }

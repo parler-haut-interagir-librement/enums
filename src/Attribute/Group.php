@@ -8,6 +8,6 @@ use Phil\Enums\Meta\AbstractMetaProperty;
 use Attribute;
 
 #[Attribute(Attribute::IS_REPEATABLE)]
-class Group extends AbstractMetaProperty
+final class Group extends AbstractMetaProperty
 {
 }

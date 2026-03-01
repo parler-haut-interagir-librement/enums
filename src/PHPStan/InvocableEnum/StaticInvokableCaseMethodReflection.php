@@ -60,7 +60,7 @@ class StaticInvokableCaseMethodReflection implements MethodReflection
     }
 
     /**
-     * @return ParametersAcceptor[]
+     * @return list<ParametersAcceptor>
      */
     public function getVariants(): array
     {
