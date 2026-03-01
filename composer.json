@@ -17,17 +17,18 @@
     }
   ],
   "require": {
-    "php": "^8.1"
+    "php": "^8.3"
   },
   "require-dev": {
-    "bamarni/composer-bin-plugin": "^1.8",
+    "bamarni/composer-bin-plugin": "^1.9",
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpdoc-parser": "^2.3",
     "phpstan/phpstan": "^2.1",
     "phpstan/phpstan-deprecation-rules": "^2.0",
     "phpstan/phpstan-strict-rules": "^2.0",
-    "phpunit/phpunit": "^11.5",
-    "rector/rector": "^2.2"
+    "phpunit/phpunit": "^12.5",
+    "rector/rector": "^2.3",
+    "symplify/phpstan-rules": "^14.9"
   },
   "autoload": {
     "psr-4": {

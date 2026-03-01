@@ -1,7 +1,8 @@
-# Ignore editors and OS files
+
+###> IDE and OS ###
 .DS_Store
 .idea
-
+###< IDE and OS ###
 # Ignore vendor dependencies and scripts
 /vendor
 /composer.phar
@@ -30,3 +31,6 @@ phpstan.neon
 .phpunit.result.cache
 .phpunit.cache
 ###< phpunit/phpunit ###
+###> jolicode/castor ###
+.castor.stub.php
+###< jolicode/castor ###

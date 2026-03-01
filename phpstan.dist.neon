@@ -3,8 +3,38 @@
 # https://phpstan.org/blog/what-is-bleeding-edge
 # comment the two following lines if you don't want to use the bleedingEdge mode.
 includes:
+    - vendor/symplify/phpstan-rules/config/code-complexity-rules.neon
+    - vendor/symplify/phpstan-rules/config/configurable-rules.neon
+    - vendor/symplify/phpstan-rules/config/naming-rules.neon
+#    - vendor/symplify/phpstan-rules/config/static-rules.neon --- CHANGE BY LINE BY LINE RULES UNTIL FIXED
+
+    # project specific
+    - vendor/symplify/phpstan-rules/config/rector-rules.neon
+
     - phar://phpstan.phar/conf/bleedingEdge.neon
 # https://phpstan.org/config-reference
+
+rules:
+    - Symplify\PHPStanRules\Rules\ForbiddenExtendOfNonAbstractClassRule
+    - Symplify\PHPStanRules\Rules\NoGlobalConstRule
+
+    # domain
+    - Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule
+    - Symplify\PHPStanRules\Rules\Domain\RequireAttributeNamespaceRule
+    - Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
+    - Symplify\PHPStanRules\Rules\RequireAttributeNameRule
+
+    - Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
+    - Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
+
+    - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
+#    - Symplify\PHPStanRules\Rules\NoReferenceRule # CRASH because of https://github.com/symplify/phpstan-rules/issues/263
+    - Symplify\PHPStanRules\Rules\ForbiddenStaticClassConstFetchRule
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
+
+    # docblock
+    - Symplify\PHPStanRules\Rules\NoMissnamedDocTagRule
+
 parameters:
     # https://phpstan.org/config-reference#rule-level
     level: max
@@ -13,17 +43,13 @@ parameters:
         - src
         - tests
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
-    # https://github.com/phpstan/phpstan-symfony#configuration
-    #symfony:
-    #    containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
-    #    consoleApplicationLoader: tests/console-application.php
-    # @see config/packages/framework.php
-    #scanDirectories:
-    #    - var/cache/dev/Symfony/Config
     # https://phpstan.org/user-guide/ignoring-errors
+    reportUnmatchedIgnoredErrors: true
     treatPhpDocTypesAsCertain: false
     checkMissingCallableSignature: true
     ignoreErrors:
         #- '#my_ignore_error_regexp_pattern#'
-        - '#from outside its root namespace#' # @see https://github.com/symfony/symfony/issues/60299
-        - "#Call to function method_exists\\(\\) with 'Symfony\\\\\\\\Component\\\\\\\\Dotenv\\\\\\\\Dotenv' and 'bootEnv' will always evaluate to true.#"
+        -
+            identifier: trait.unused
+        -
+            identifier: symplify.forbiddenNode
