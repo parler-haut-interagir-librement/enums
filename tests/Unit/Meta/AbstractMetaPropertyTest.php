@@ -12,7 +12,7 @@ use Phil\Enums\Tests\Fixtures\Attribute\Color;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-final class AbstractMetaPropertyTest extends TestCase
+final class AbstractMetaPropertyTest extends TestCase // @phpstan-ignore symplify.explicitAbstractPrefixName
 {
     #[Test]
     public function constructorStoresValue(): void

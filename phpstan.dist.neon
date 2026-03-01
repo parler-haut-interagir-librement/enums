@@ -3,6 +3,7 @@
 # https://phpstan.org/blog/what-is-bleeding-edge
 # comment the two following lines if you don't want to use the bleedingEdge mode.
 includes:
+    - extension.neon
     - vendor/symplify/phpstan-rules/config/code-complexity-rules.neon
     - vendor/symplify/phpstan-rules/config/configurable-rules.neon
     - vendor/symplify/phpstan-rules/config/naming-rules.neon
@@ -55,3 +56,38 @@ parameters:
             identifier: symplify.requireAttributeName
         -
             identifier: trait.unused
+        -
+            identifiers:
+                - isset.offset
+                - booleanAnd.alwaysFalse
+                - booleanAnd.alwaysTrue
+                - varTag.type
+                - rector.noInstanceOfStaticReflection
+                - instanceof.alwaysFalse
+                - instanceof.alwaysTrue
+            path: src/Traits/AsValuableEnumTrait.php
+        -
+            identifiers:
+                - isset.offset
+                - booleanAnd.alwaysFalse
+                - booleanAnd.alwaysTrue
+                - rector.noInstanceOfStaticReflection
+                - instanceof.alwaysFalse
+                - instanceof.alwaysTrue
+            path: src/Traits/AsSelectableEnumTrait.php
+        -
+            identifiers:
+                - rector.noInstanceOfStaticReflection
+                - instanceof.alwaysTrue
+                - instanceof.alwaysFalse
+                - symplify.forbiddenStaticClassConstFetch
+                - return.type
+            path: src/Traits/AsInvocableEnumTrait.php
+        -
+            identifier: identical.alwaysFalse
+            path: src/Traits/AsStringSelectableEnumTrait.php
+        -
+            identifier: varTag.type
+            path: src/Traits/AsNameableEnumTrait.php
+
+

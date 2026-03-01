@@ -1,2 +1,3 @@
 includes:
     - ./src/PHPStan/InvocableEnum/extension.neon
+    - ./src/PHPStan/MetadatableEnum/extension.neon

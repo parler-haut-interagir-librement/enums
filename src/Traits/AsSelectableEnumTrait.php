@@ -8,7 +8,11 @@ use BackedEnum;
 
 trait AsSelectableEnumTrait
 {
-    /** Get an associative array of [case name => case value] or an indexed array [case name, case name] in the case of pure enums. */
+    /**
+     * Get an associative array of [case name => case value] or an indexed array [case name, case name] in the case of pure enums.
+     *
+     * @return array<string, string|int>|list<string>
+     */
     public static function options(): array
     {
         $cases = static::cases();

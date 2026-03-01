@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Traits/AsStringSelectableEnumTraitTest.php
 
 declare(strict_types=1);
 
@@ -15,7 +14,7 @@ final class AsStringSelectableEnumTraitTest extends TestCase
     public function stringOptionsWithCustomCallback(): void
     {
         $result = StringBackedEnum::stringOptions(
-            static fn (string $name, mixed $value): string => "{$name}:{$value}",
+            static fn (string $name, string $value): string => "{$name}:{$value}",
             ', ',
         );
 

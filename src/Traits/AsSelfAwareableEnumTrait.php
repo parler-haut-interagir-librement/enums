@@ -22,7 +22,7 @@ trait AsSelfAwareableEnumTrait
      */
     public static function isBacked(): bool
     {
-        /** @phpstan-ignore function.impossibleType */
+        /** @phpstan-ignore function.impossibleType, function.alreadyNarrowedType */
         return is_subclass_of(self::class, BackedEnum::class);
     }
 

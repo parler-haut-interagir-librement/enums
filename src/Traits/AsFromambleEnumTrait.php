@@ -17,7 +17,7 @@ trait AsFromambleEnumTrait
      */
     public static function from(int|string $case): static
     {
-        return static::fromName($case);
+        return static::fromName((string) $case);
     }
 
     /**
@@ -27,7 +27,7 @@ trait AsFromambleEnumTrait
      */
     public static function tryFrom(int|string $case): ?static
     {
-        return static::tryFromName($case);
+        return static::tryFromName((string) $case);
     }
 
     /**
@@ -37,7 +37,9 @@ trait AsFromambleEnumTrait
      */
     public static function fromName(string $case): static
     {
-        return static::tryFromName($case) ?? throw new ValueError('"' . $case . '" is not a valid name for enum ' . static::class);
+        $enumClass = static::class; // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
+
+        return static::tryFromName($case) ?? throw new ValueError('"' . $case . '" is not a valid name for enum ' . $enumClass);
     }
 
     /**

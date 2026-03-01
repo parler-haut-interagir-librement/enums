@@ -6,6 +6,7 @@ namespace Phil\Enums\Traits;
 
 use BackedEnum;
 use Closure;
+use UnitEnum;
 
 trait AsStringSelectableEnumTrait
 {
@@ -14,25 +15,23 @@ trait AsStringSelectableEnumTrait
     /**
      * Generate a string format of the enum options using the provided callback and glue.
      *
-     * @param Closure(string $name, mixed $value): string $callback
+     * @param (Closure(string, string): string)|null $callback
+     * @param string                                 $glue
+     *
+     * @return string
      */
     public static function stringOptions(?Closure $callback = null, string $glue = '\n'): string
     {
-        $firstCase = static::cases()[0] ?? null;
+        $cases = static::cases();
 
-        if (null === $firstCase) {
+        if ($cases === []) {
             return '';
         }
 
-        // [name, name]
-        $options = static::options();
-        if (!$firstCase instanceof BackedEnum) {
-            // [name => name, name => name]
-            $options = array_combine($options, $options);
-        }
+        $options = array_column($cases, 'value', 'name');
 
         // Default callback
-        $callback ??= static function ($name, $value) {
+        $callback ??= static function (string $name, string $value): string {
             if (str_contains($name, '_')) {
                 // Snake case
                 $words = explode('_', $name);
@@ -41,14 +40,21 @@ trait AsStringSelectableEnumTrait
                 $words = [$name];
             } else {
                 // Pascal case or camel case
-                $words = array_filter(preg_split('/(?=[A-Z])/', $name));
+                $split = preg_split('/(?=[A-Z])/', $name);
+
+                /** @var list<non-empty-string> $words */
+                $words = array_filter(
+                    $split !== false ? $split : [],
+                    static fn (string $word): bool => $word !== '',
+                );
             }
 
-            return "<option value=\"{$value}\">" . ucfirst(mb_strtolower(implode(' ', $words))) . '</option>';
+            return '<option value="' . $value . '">' . ucfirst(mb_strtolower(implode(' ', $words))) . '</option>';
         };
 
-        $options = array_map($callback, array_keys($options), array_values($options));
+        /** @var list<string> $result */
+        $result = array_map($callback, array_keys($options), array_values($options));
 
-        return implode($glue, $options);
+        return implode($glue, $result);
     }
 }

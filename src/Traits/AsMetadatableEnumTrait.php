@@ -25,9 +25,20 @@ trait AsMetadatableEnumTrait
     /** Get the first case with this meta property value. */
     public static function fromMeta(AbstractMetaProperty $metaProperty): static
     {
-        return static::tryFromMeta($metaProperty) ?? throw new ValueError('Enum ' . static::class . ' does not have a case with a meta property "' . $metaProperty::class . '" of value "' . $metaProperty->value . '"');
+        $enumClass = static::class; // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
+        $metaClass = $metaProperty::class; // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
+        $value = is_scalar($metaProperty->value) || $metaProperty->value instanceof \Stringable // @phpstan-ignore rector.noInstanceOfStaticReflection
+            ? (string) $metaProperty->value
+            : get_debug_type($metaProperty->value);
+
+        return static::tryFromMeta($metaProperty) ?? throw new ValueError(
+            'Enum ' . $enumClass . ' does not have a case with a meta property "' . $metaClass . '" of value "' . $value . '"'
+        );
     }
 
+    /**
+     * @param array<int, mixed> $arguments
+     */
     public function __call(string $property, array $arguments): mixed
     {
         $metaProperties = Reflection::metaProperties($this);

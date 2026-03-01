@@ -67,6 +67,6 @@ final class AsMetadatableEnumTraitTest extends TestCase
     public function undefinedMetaPropertyReturnsNull(): void
     {
         // Calling a method that doesn't correspond to any registered meta property
-        self::assertNull(MetaEnum::INCOMPLETE->nonExistentMeta());
+        self::assertNull(MetaEnum::INCOMPLETE->nonExistentMeta()); // @phpstan-ignore method.notFound
     }
 }

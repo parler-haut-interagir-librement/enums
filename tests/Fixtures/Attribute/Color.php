@@ -13,6 +13,8 @@ final class Color extends AbstractMetaProperty
 {
     protected function transform(mixed $value): mixed
     {
+        assert(is_string($value));
+
         return "text-{$value}-500";
     }
 }
