@@ -8,7 +8,7 @@ use Phil\Enums\Meta\AbstractMetaProperty;
 #[Attribute(Attribute::TARGET_CLASS)]
 class Meta
 {
-    /** @var string[]|class-string<AbstractMetaProperty>[] */
+    /** @var list<class-string<AbstractMetaProperty>> */
     public array $metaProperties;
 
     /**
@@ -16,6 +16,9 @@ class Meta
      */
     public function __construct(string ...$metaProperties)
     {
-        $this->metaProperties = $metaProperties;
+        /** @var list<class-string<AbstractMetaProperty>> $list */
+        $list = array_values($metaProperties);
+
+        $this->metaProperties = $list;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Phil\Enums\Traits;
 
 use Phil\Enums\Meta\AbstractMetaProperty;
+use Phil\Enums\Meta\Contracts\MetaInterface;
 use Phil\Enums\Meta\Reflection;
 use ValueError;
 

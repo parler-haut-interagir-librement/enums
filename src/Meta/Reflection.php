@@ -14,7 +14,10 @@ class Reflection
      * Get the meta properties enabled on an Enum.
      *
      * @param \Phil\Enums\Traits\AsMetadatableEnumTrait $enum
-     * @return string[]|array<\class-string<AbstractMetaProperty>>
+     *
+     * @return list<class-string<AbstractMetaProperty>>
+     *
+     * @phpstan-ignore parameter.trait
      */
     public static function metaProperties(mixed $enum): array
     {
@@ -24,6 +27,7 @@ class Reflection
         // Traits except the `Metadata` trait
         $traits = array_values(array_filter($reflection->getTraits(), fn (ReflectionClass $class) => $class->getName() !== 'ArchTech\Enums\Metadata'));
 
+        /** @var list<list<class-string<AbstractMetaProperty>>> $traitsMeta */
         $traitsMeta = array_map(
             fn (ReflectionClass $trait) => static::parseMetaProperties($trait),
             $traits
@@ -32,13 +36,17 @@ class Reflection
         return array_merge($metaProperties, ...$traitsMeta);
     }
 
-    /** @param ReflectionClass<object> $reflection */
+    /**
+     * @param ReflectionClass<object> $reflection
+     *
+     * @return list<class-string<AbstractMetaProperty>>
+     */
     protected static function parseMetaProperties(ReflectionClass $reflection): array
     {
         // Only the `Meta` attribute
         $attributes = $reflection->getAttributes(Meta::class);
 
-        if ($attributes) {
+        if ($attributes !== []) {
             /** @var Meta $meta */
             $meta = $attributes[0]->newInstance();
 
@@ -52,16 +60,15 @@ class Reflection
      * Get the value of a meta property on the provided enum.
      *
      * @param class-string<AbstractMetaProperty> $metaProperty
-     * @param \UnitEnum $enum
      */
-    public static function metaValue(string $metaProperty, mixed $enum): mixed
+    public static function metaValue(string $metaProperty, \UnitEnum $enum): mixed
     {
         // Find the case used by $enum
         $reflection = new ReflectionEnumUnitCase($enum::class, $enum->name);
         $attributes = $reflection->getAttributes();
 
         // Instantiate each ReflectionAttribute
-        /** @var AbstractMetaProperty[] $properties */
+        /** @var list<AbstractMetaProperty> $properties */
         $properties = array_map(fn (ReflectionAttribute $attr) => $attr->newInstance(), $attributes);
 
         // Find the property that matches the $metaProperty class
@@ -70,7 +77,7 @@ class Reflection
         // Reset array index
         $properties = array_values($properties);
 
-        if ($properties) {
+        if ($properties !== []) {
             return $properties[0]->value;
         }
 
