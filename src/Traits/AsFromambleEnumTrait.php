@@ -49,7 +49,7 @@ trait AsFromambleEnumTrait
     {
         $cases = array_filter(
             static::cases(),
-            static fn ($c) => $c->name === $case
+            static fn ($c): bool => $c->name === $case
         );
 
         return array_values($cases)[0] ?? null;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Meta;
 
+use Phil\Enums\Traits\AsMetadatableEnumTrait;
 use Phil\Enums\Attribute\Meta;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -24,11 +25,11 @@ class Reflection
         $metaProperties = static::parseMetaProperties($reflection);
 
         // Traits except the `Metadata` trait
-        $traits = array_values(array_filter($reflection->getTraits(), static fn (ReflectionClass $class) => '\Phil\Enums\Traits\AsMetadatableEnumTrait' !== $class->getName()));
+        $traits = array_values(array_filter($reflection->getTraits(), static fn (ReflectionClass $class): bool => AsMetadatableEnumTrait::class !== $class->getName()));
 
         /** @var list<list<class-string<AbstractMetaProperty>>> $traitsMeta */
         $traitsMeta = array_map(
-            static fn (ReflectionClass $trait) => static::parseMetaProperties($trait),
+            static fn (ReflectionClass $trait): array => static::parseMetaProperties($trait),
             $traits
         );
 
@@ -68,10 +69,10 @@ class Reflection
 
         // Instantiate each ReflectionAttribute
         /** @var list<AbstractMetaProperty> $properties */
-        $properties = array_map(static fn (ReflectionAttribute $attr) => $attr->newInstance(), $attributes);
+        $properties = array_map(static fn (ReflectionAttribute $attr): object => $attr->newInstance(), $attributes);
 
         // Find the property that matches the $metaProperty class
-        $properties = array_filter($properties, static fn (AbstractMetaProperty $property) => $property::class === $metaProperty);
+        $properties = array_filter($properties, static fn (AbstractMetaProperty $property): bool => $property::class === $metaProperty);
 
         // Reset array index
         $properties = array_values($properties);

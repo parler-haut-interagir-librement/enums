@@ -40,10 +40,10 @@ final class AbstractMetaPropertyTest extends TestCase // @phpstan-ignore symplif
     public function makeCreatesNewInstance(): void
     {
         $desc = new Description('first');
-        $other = $desc->make('second');
+        $description = $desc->make('second');
 
-        self::assertSame('second', $other->value);
-        self::assertInstanceOf(Description::class, $other);
+        self::assertSame('second', $description->value);
+        self::assertInstanceOf(Description::class, $description);
     }
 
     #[Test]
