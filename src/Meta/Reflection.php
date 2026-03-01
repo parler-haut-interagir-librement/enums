@@ -16,19 +16,17 @@ class Reflection
     /**
      * Get the meta properties enabled on an Enum.
      *
-     * @param \Phil\Enums\Traits\AsMetadatableEnumTrait $enum
-     *
      * @return list<class-string<AbstractMetaProperty>>
      *
      * @phpstan-ignore parameter.trait
      */
-    public static function metaProperties(mixed $enum): array
+    public static function metaProperties(UnitEnum $enum): array
     {
         $reflection = new ReflectionObject($enum);
         $metaProperties = static::parseMetaProperties($reflection);
 
         // Traits except the `Metadata` trait
-        $traits = array_values(array_filter($reflection->getTraits(), static fn (ReflectionClass $class) => 'ArchTech\Enums\Metadata' !== $class->getName()));
+        $traits = array_values(array_filter($reflection->getTraits(), static fn (ReflectionClass $class) => '\Phil\Enums\Traits\AsMetadatableEnumTrait' !== $class->getName()));
 
         /** @var list<list<class-string<AbstractMetaProperty>>> $traitsMeta */
         $traitsMeta = array_map(
