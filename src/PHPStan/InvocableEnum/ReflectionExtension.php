@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phil\Enums\PHPStan\InvocableEnum;
 
 use Phil\Enums\Traits\AsInvocableEnumTrait;
@@ -26,7 +28,4 @@ class ReflectionExtension implements MethodsClassReflectionExtension
     {
         return new StaticInvokableCaseMethodReflection($classReflection, $methodName);
     }
-}
-{
-
 }

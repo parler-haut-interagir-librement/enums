@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
@@ -18,7 +19,7 @@ trait AsComparableEnumTrait
      */
     public function isNot(mixed $enum): bool
     {
-        return ! $this->is($enum);
+        return !$this->is($enum);
     }
 
     /**
@@ -44,7 +45,7 @@ trait AsComparableEnumTrait
      */
     public function notIn(iterable $targets): bool
     {
-        return ! $this->in($targets);
+        return !$this->in($targets);
     }
 
     /**
@@ -90,5 +91,4 @@ trait AsComparableEnumTrait
     {
         return !$this->equalsOneOf($enums);
     }
-
 }

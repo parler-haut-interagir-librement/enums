@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phil\Enums\Traits;
 
 use ValueError;
@@ -7,12 +9,12 @@ use ValueError;
 trait AsFromambleEnumTrait
 {
     /**
-    * Gets the Enum by name, if it exists, for "Pure" enums.
-    *
-    * This will not override the `from()` method on BackedEnums
-    *
-    * @throws ValueError
-    */
+     * Gets the Enum by name, if it exists, for "Pure" enums.
+     *
+     * This will not override the `from()` method on BackedEnums
+     *
+     * @throws ValueError
+     */
     public static function from(int|string $case): static
     {
         return static::fromName($case);
@@ -45,7 +47,7 @@ trait AsFromambleEnumTrait
     {
         $cases = array_filter(
             static::cases(),
-            fn ($c) => $c->name === $case
+            static fn ($c) => $c->name === $case
         );
 
         return array_values($cases)[0] ?? null;

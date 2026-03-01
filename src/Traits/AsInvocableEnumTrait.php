@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
@@ -27,5 +28,4 @@ trait AsInvocableEnumTrait
 
         throw new UndefinedCaseError(static::class, $name);
     }
-
 }

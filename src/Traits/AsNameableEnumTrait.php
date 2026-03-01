@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
 
 trait AsNameableEnumTrait
 {
-
     /**
      * Get an array of case names.
      *

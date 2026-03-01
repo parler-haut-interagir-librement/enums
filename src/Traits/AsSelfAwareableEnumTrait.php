@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phil\Enums\Traits;
 
 trait AsSelfAwareableEnumTrait
@@ -26,7 +28,7 @@ trait AsSelfAwareableEnumTrait
      */
     public static function isBackedByInteger(): bool
     {
-        return (string) (new ReflectionEnum(self::class))->getBackingType() === 'int';
+        return 'int' === (string) (new ReflectionEnum(self::class))->getBackingType();
     }
 
     /**
@@ -34,7 +36,6 @@ trait AsSelfAwareableEnumTrait
      */
     public static function isBackedByString(): bool
     {
-        return (string) (new ReflectionEnum(self::class))->getBackingType() === 'string';
+        return 'string' === (string) (new ReflectionEnum(self::class))->getBackingType();
     }
-
 }

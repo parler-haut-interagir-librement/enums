@@ -14,8 +14,6 @@ $finder = Finder::create()
         [
             __DIR__ . '/src',
             __DIR__ . '/tests',
-            __DIR__ . '/migrations',
-            __DIR__ . '/bundles',
         ]
     )
 ;

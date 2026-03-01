@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
@@ -16,5 +17,4 @@ trait AsSelectableEnumTrait
             ? array_column($cases, 'value', 'name')
             : array_column($cases, 'name');
     }
-
 }

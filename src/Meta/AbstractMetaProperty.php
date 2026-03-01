@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phil\Enums\Meta;
 
 abstract class AbstractMetaProperty
@@ -44,7 +46,7 @@ abstract class AbstractMetaProperty
     {
         $custom = static::customMethodName();
 
-        if ($custom !== null && $custom !== '') {
+        if (null !== $custom && '' !== $custom) {
             return $custom;
         }
 

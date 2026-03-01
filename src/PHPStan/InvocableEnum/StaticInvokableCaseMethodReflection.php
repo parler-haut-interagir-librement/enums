@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phil\Enums\PHPStan\InvocableEnum;
 
 use PHPStan\Analyser\OutOfClassScope;
