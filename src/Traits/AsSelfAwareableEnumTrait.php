@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
 
+use BackedEnum;
+use ReflectionEnum;
+
 trait AsSelfAwareableEnumTrait
 {
     /**

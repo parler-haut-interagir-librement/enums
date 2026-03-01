@@ -50,6 +50,8 @@ parameters:
     ignoreErrors:
         #- '#my_ignore_error_regexp_pattern#'
         -
-            identifier: trait.unused
-        -
             identifier: symplify.forbiddenNode
+        -
+            identifier: symplify.requireAttributeName
+        -
+            identifier: trait.unused

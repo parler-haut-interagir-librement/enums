@@ -17,8 +17,6 @@ class Reflection
      * Get the meta properties enabled on an Enum.
      *
      * @return list<class-string<AbstractMetaProperty>>
-     *
-     * @phpstan-ignore parameter.trait
      */
     public static function metaProperties(UnitEnum $enum): array
     {

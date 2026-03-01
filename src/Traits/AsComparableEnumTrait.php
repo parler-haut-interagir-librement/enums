@@ -76,7 +76,7 @@ trait AsComparableEnumTrait
     public function equalsOneOf(array $enums): bool
     {
         foreach ($enums as $value) {
-            if ($this->has($value)) {
+            if ($this->is($value)) {
                 return true;
             }
         }
