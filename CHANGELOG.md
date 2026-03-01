@@ -24,7 +24,7 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Security
 - Nothing
 
-## 0.2.0 - YYYY-MM-DD
+## 0.2.0 - 2026-03-01
 
 ### Added
 - Label Meta Property
@@ -34,23 +34,17 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
   * isBacked
   * isBackedByInteger
   * isBackedByString
-- Add PHPStan Extension
-
+- Add PHPStan Extensions
+- Add Tests
+- Add Castor as Runner
 
 ### Changed
-- Nothing
-
-### Deprecated
-- Nothing
+- Documentation
 
 ### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- Documentation
+- All PHPStan Errors
+- Fixes all CS problems
 
 ## 0.1.0 - 2026-02-19
 
