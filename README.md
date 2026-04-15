@@ -78,7 +78,7 @@ A zero-dependencies collection of enum helper traits for PHP.
       - [Group](#group)
       - [Label](#label)
     - [Recommandations](#recommendation-use-annotations-and-traits)
-  - [`AsSelfAwareableEnum`](#asselfawareableenumtrait)
+  - [`AsSelfAwareableEnum`](#asselfawareableenum)
       - [Apply the trait on your enum](#apply-the-trait-on-your-enum-7)
       - [`isPure()` — Check if the enum is a pure enum (no backing type)](#ispure--check-if-the-enum-is-a-pure-enum-no-backing-type)
       - [`isBacked()` — Check if the enum is backed](#isbacked--check-if-the-enum-is-backed)

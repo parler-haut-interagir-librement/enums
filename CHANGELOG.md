@@ -25,25 +25,11 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Security
 - Nothing
 
-## 0.2.1 - YYYY-MM-DD
-
-### Added
-- Nothing
-
-### Changed
-- Nothing
-
-### Deprecated
-- Nothing
+## 0.2.1 - 2026-04-15
 
 ### Fixed
 - Add Attribute::TARGET_CLASS_CONSTANT to the Meta Attributes (Description, Group, Label)
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- Fix link in documentation
 
 ## 0.2.0 - 2026-03-01
 
