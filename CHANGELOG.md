@@ -4,6 +4,7 @@ All notable changes to `enum` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+
 ## NEXT - YYYY-MM-DD
 
 ### Added
@@ -17,6 +18,26 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ### Fixed
 - Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
+## 0.2.1 - YYYY-MM-DD
+
+### Added
+- Nothing
+
+### Changed
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Add Attribute::TARGET_CLASS_CONSTANT to the Meta Attributes (Description, Group, Label)
 
 ### Removed
 - Nothing

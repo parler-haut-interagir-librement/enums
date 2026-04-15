@@ -7,7 +7,7 @@ namespace Phil\Enums\Attribute;
 use Attribute;
 use Phil\Enums\Meta\AbstractMetaProperty;
 
-#[Attribute(Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_CLASS_CONSTANT | Attribute::IS_REPEATABLE)]
 final class Group extends AbstractMetaProperty
 {
 }

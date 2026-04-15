@@ -7,7 +7,7 @@ namespace Phil\Enums\Attribute;
 use Attribute;
 use Phil\Enums\Meta\AbstractMetaProperty;
 
-#[Attribute]
+#[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
 final class Description extends AbstractMetaProperty
 {
 }
