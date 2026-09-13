@@ -25,6 +25,21 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 ### Security
 - Nothing
 
+
+## 0.2.2 - 2026-09-13
+
+### Added
+- `AbstractMetaProperty` is now generic over its value type (`@template TValue`). Meta properties declare
+  what they hold with `@extends AbstractMetaProperty<string>` (done for Description, Group and Label)
+
+### Changed
+- The PHPStan extension now infers the real return type of the generated meta accessors
+  (`->label()`, `->description()`, ...) from the meta property's `TValue`, instead of always reporting `mixed`
+- An accessor is only nullable when at least one case of the enum lacks the attribute and can therefore
+  fall back to `defaultValue()`; an enum that attributes every case gets the bare value type
+- `Meta`, `Meta\Reflection` and `AsMetadatableEnumTrait` signatures updated for the generic `AbstractMetaProperty`
+
+
 ## 0.2.1 - 2026-04-15
 
 ### Fixed

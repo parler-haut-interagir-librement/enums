@@ -11,7 +11,6 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Generic\TemplateTypeMap;
-use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 
 class MetadatableMethodReflection implements MethodReflection
@@ -19,6 +18,7 @@ class MetadatableMethodReflection implements MethodReflection
     public function __construct(
         private readonly ClassReflection $classReflection,
         private readonly string $name,
+        private readonly Type $valueType,
     ) {
     }
 
@@ -68,7 +68,7 @@ class MetadatableMethodReflection implements MethodReflection
                 TemplateTypeMap::createEmpty(),
                 [],
                 false,
-                new MixedType(),
+                $this->valueType,
             ),
         ];
     }

@@ -10,6 +10,9 @@ use Phil\Enums\Meta\AbstractMetaProperty;
 use function assert;
 use function is_string;
 
+/**
+ * @extends AbstractMetaProperty<string>
+ */
 #[Attribute]
 final class Color extends AbstractMetaProperty
 {

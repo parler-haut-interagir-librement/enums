@@ -17,7 +17,7 @@ class Reflection
     /**
      * Get the meta properties enabled on an Enum.
      *
-     * @return list<class-string<AbstractMetaProperty>>
+     * @return list<class-string<AbstractMetaProperty<*>>>
      */
     public static function metaProperties(UnitEnum $enum): array
     {
@@ -27,7 +27,7 @@ class Reflection
         // Traits except the `Metadata` trait
         $traits = array_values(array_filter($reflection->getTraits(), static fn (ReflectionClass $class): bool => AsMetadatableEnumTrait::class !== $class->getName()));
 
-        /** @var list<list<class-string<AbstractMetaProperty>>> $traitsMeta */
+        /** @var list<list<class-string<AbstractMetaProperty<*>>>> $traitsMeta */
         $traitsMeta = array_map(
             static fn (ReflectionClass $trait): array => static::parseMetaProperties($trait),
             $traits
@@ -39,7 +39,7 @@ class Reflection
     /**
      * @param ReflectionClass<object> $reflection
      *
-     * @return list<class-string<AbstractMetaProperty>>
+     * @return list<class-string<AbstractMetaProperty<*>>>
      */
     protected static function parseMetaProperties(ReflectionClass $reflection): array
     {
@@ -59,7 +59,10 @@ class Reflection
     /**
      * Get the value of a meta property on the provided enum.
      *
-     * @param class-string<AbstractMetaProperty> $metaProperty
+     * The static return type is `mixed`; PHPStan narrows the generated accessors
+     * (`->label()`, ...) via MetadatableEnum\ReflectionExtension instead.
+     *
+     * @param class-string<AbstractMetaProperty<*>> $metaProperty
      */
     public static function metaValue(string $metaProperty, UnitEnum $enum): mixed
     {
@@ -68,7 +71,7 @@ class Reflection
         $attributes = $reflection->getAttributes();
 
         // Instantiate each ReflectionAttribute
-        /** @var list<AbstractMetaProperty> $properties */
+        /** @var list<AbstractMetaProperty<*>> $properties */
         $properties = array_map(static fn (ReflectionAttribute $attr): object => $attr->newInstance(), $attributes);
 
         // Find the property that matches the $metaProperty class

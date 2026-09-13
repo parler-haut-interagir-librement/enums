@@ -13,7 +13,13 @@ use function is_scalar;
 
 trait AsMetadatableEnumTrait
 {
-    /** Try to get the first case with this meta property value. */
+    /**
+     * Try to get the first case with this meta property value.
+     *
+     * @template TMetaValue
+     *
+     * @param AbstractMetaProperty<TMetaValue> $metaProperty
+     */
     public static function tryFromMeta(AbstractMetaProperty $metaProperty): ?static
     {
         foreach (static::cases() as $case) {
@@ -25,7 +31,13 @@ trait AsMetadatableEnumTrait
         return null;
     }
 
-    /** Get the first case with this meta property value. */
+    /**
+     * Get the first case with this meta property value.
+     *
+     * @template TMetaValue
+     *
+     * @param AbstractMetaProperty<TMetaValue> $metaProperty
+     */
     public static function fromMeta(AbstractMetaProperty $metaProperty): static
     {
         $enumClass = static::class; // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
