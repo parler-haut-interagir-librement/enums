@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
 
+use UnitEnum;
 use ValueError;
 
+/**
+ * A case found by its name: `fromName()` and `tryFromName()` on every enum, and — on a pure enum, which has no
+ * `from()` of its own — `from()` and `tryFrom()` as the same lookup. A backed enum keeps PHP's `from()` and
+ * `tryFrom()`, which read its values.
+ */
 trait AsFromambleEnumTrait
 {
     /**
-     * Gets the Enum by name, if it exists, for "Pure" enums.
+     * The case of a pure enum with this name.
      *
-     * This will not override the `from()` method on BackedEnums
-     *
-     * @throws ValueError
+     * @throws ValueError when no case has it
      */
     public static function from(int|string $case): static
     {
@@ -21,9 +25,7 @@ trait AsFromambleEnumTrait
     }
 
     /**
-     * Gets the Enum by name, if it exists, for "Pure" enums.
-     *
-     * This will not override the `tryFrom()` method on BackedEnums
+     * The case of a pure enum with this name, or `null`.
      */
     public static function tryFrom(int|string $case): ?static
     {
@@ -31,27 +33,20 @@ trait AsFromambleEnumTrait
     }
 
     /**
-     * Gets the Enum by name.
+     * The case with this name.
      *
-     * @throws ValueError
+     * @throws ValueError when no case has it
      */
     public static function fromName(string $case): static
     {
-        $enumClass = static::class; // @phpstan-ignore symplify.forbiddenStaticClassConstFetch
-
-        return static::tryFromName($case) ?? throw new ValueError('"' . $case . '" is not a valid name for enum ' . $enumClass);
+        return static::tryFromName($case) ?? throw new ValueError(\sprintf('"%s" is not a valid name for enum %s', $case, self::class));
     }
 
     /**
-     * Gets the Enum by name, if it exists.
+     * The case with this name, or `null`; names are compared exactly, letter case included.
      */
     public static function tryFromName(string $case): ?static
     {
-        $cases = array_filter(
-            static::cases(),
-            static fn ($c): bool => $c->name === $case
-        );
-
-        return array_values($cases)[0] ?? null;
+        return array_find(static::cases(), static fn (UnitEnum $candidate): bool => $candidate->name === $case);
     }
 }

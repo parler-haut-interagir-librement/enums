@@ -1,63 +1,33 @@
 # Security Policy
 
-We take the security of our project seriously. If you discover a security vulnerability, we encourage you to report it responsibly to ensure the issue is addressed quickly and effectively.
+## Reporting a vulnerability
 
+**Do not report a vulnerability in a public issue, pull request or discussion.** Write to
+[security@ph-il.ca](mailto:security@ph-il.ca) instead, with:
 
-## Reporting a Vulnerability
+- a description of the vulnerability and of what an attacker can do with it;
+- the package and the version or commit affected;
+- the steps to reproduce it, or a proof of concept, if you have one;
+- anything else that helps: logs, the configuration involved, a suggested fix.
 
-If you find a security vulnerability in this project, please follow the steps below:
+You will get an acknowledgement within 48 hours, and news of the fix as it progresses. Please keep the
+vulnerability private until a fixed version is published; we will agree with you on the date of the disclosure and
+credit you in the advisory, unless you prefer not to be named.
 
-1. **Do not disclose the vulnerability publicly.** Contact us privately via email to give us the opportunity to resolve the issue before it is made public.
+## How a vulnerability is fixed
 
-2. Send an email to [j84x6cfso@mozmail.com](mailto:j84x6cfso@mozmail.com) with:
-    - A detailed description of the vulnerability
-    - Steps to reproduce the vulnerability, if possible
-    - Any additional relevant information (logs, screenshots, etc.)
+- A fix is aimed for within 7 to 14 days of the acknowledgement, sooner for a severe vulnerability.
+- The fix is released as a new version of the package, and announced in its release notes and in a GitHub security
+  advisory on the package's repository.
+- A commit that fixes a vulnerability is prefixed with `security:`, so that it can be found and applied by those who
+  cannot upgrade at once.
 
-3. We aim to acknowledge your report within 48 hours and will keep you informed of the progress on the fix.
+## Supported versions
 
+Only the latest version of each package, on its main branch, receives security fixes. The packages are at `0.x`:
+upgrade to the latest release to get a fix, or apply its `security:` commit yourself.
 
-## Fixing Policy
+## Dependencies
 
-We aim to resolve security issues in a timely and transparent manner:
-
-- **Fix timeline:** Once a vulnerability is identified, we will strive to issue a fix within 7 to 14 days.
-- **User notifications:** After a fix is released, we will notify users through release notes and/or a public announcement on our [GitHub page](https://github.com/strangebuzz/microsymfony).
-
-
-## Supported Versions
-
-We only maintain the main branch.
-
-If you are using an unsupported version, we encourage you to upgrade to the latest
-version to ensure the security of your project.
-
-To do so you can cherry-pick the patch that was applied to the main branch to fix
-the security issue.
-All security related patches commits are prefixed by `security:`.
-
-Thank you for helping us keep your open-source project secure!
-
-
-## Checking Vulnerabilities (GitHub actions)
-
-A GitHub action runs the `composer audit` command.
-When the job finds a security vulnerability, it fails with an output like this:
-
-    Run composer audit
-    Found 1 security vulnerability advisory affecting 1 package:
-    +-------------------+----------------------------------------------------------------------------------+
-    | Package           | twig/twig                                                                        |
-    | Severity          | medium                                                                           |
-    | CVE               | CVE-2025-24374                                                                   |
-    | Title             | Twig security issue where escaping was missing when using null coalesce operator |
-    | URL               | https://github.com/advisories/GHSA-3xg3-cgvq-2xwr                                |
-    | Affected versions | >=3.16.0,<3.19.0                                                                 |
-    | Reported at       | 2025-01-29T18:41:43+00:00                                                        |
-    +-------------------+----------------------------------------------------------------------------------+
-    Error: Process completed with exit code 1
-
-In this case, the `twig/twig` dependency has to be updated to fix the error. 
-You have to run:
-
-    composer up twig/twig
+A vulnerability in a dependency is fixed by raising the dependency's constraint once a fixed release exists. If you
+find a dependency of a package with a known advisory (`composer audit` reports them), you may report it the same way.

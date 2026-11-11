@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Tests\Unit\Traits;
 
-use Phil\Enums\Tests\Fixtures\IntBackedEnum;
-use Phil\Enums\Tests\Fixtures\PureEnum;
+use Phil\Enums\Tests\Fixture\IntBackedEnum;
+use Phil\Enums\Tests\Fixture\PureEnum;
+use Phil\Enums\Traits\AsFromambleEnumTrait;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ValueError;
@@ -13,6 +15,7 @@ use ValueError;
 /**
  * @internal
  */
+#[CoversTrait(AsFromambleEnumTrait::class)]
 final class AsFromableEnumTraitTest extends TestCase
 {
     #[Test]

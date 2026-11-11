@@ -1,73 +1,49 @@
-# Contributing to ph-il/enums
+# Contributing
 
-This contribution guide was taken and adapted from [API-Platform](https://github.com/api-platform/api-platform/blob/main/.github/CONTRIBUTING.md?plain=1).
+This package is one of the open packages of [Parler Haut Interagir Librement](https://github.com/parler-haut-interagir-librement)
+(PHIL). Its code is developed in the PHIL monorepo, with the other `phil/*` packages, and its own repository is a
+read-only copy split from it: **open issues and pull requests on the monorepo**, not on the split repository.
 
-First, thank you for contributing, you're awesome!
+## Reporting a bug
 
-To have your code integrated to any Proclaim Honestly, Interact Liberally projects, there are some rules to
-follow, but don't panic, it's easy!
+- Check first that the bug is not already reported.
+- Give the version of the package, of PHP and of Symfony, the configuration involved, and the smallest code that
+  shows the bug.
+- A security vulnerability is not a bug report: follow the [security policy](SECURITY.md) instead.
 
+## Proposing a change
 
-## Reporting Bugs
+Open an issue before a large change, so that its design can be agreed first. Then:
 
-If you happen to find a bug, we kindly request you to report it. However, before submitting it, please:
+1. **Write the code from scratch.** No code is copied from another project, even under a compatible licence:
+   another project may serve as a reference to read, never as a source to copy, translate or port. A third-party
+   licence enters a package only as a declared Composer dependency.
+2. **Keep the package independent of any application.** Its code, comments and documentation never name an
+   application that uses it; what is specific to one application is configuration.
+3. **Follow the layers.** A bundle keeps `Domain` (plain PHP, value objects and rules, no container and no I/O),
+   `Application` (the services and the ports the application implements) and `Infrastructure` (the adapters to
+   Symfony, Doctrine, Twig…) apart; the bundle class only wires them.
+4. **Test it.** Every change comes with its tests. The domain layer is held to 100 % mutation coverage: a mutant
+   that survives is a missing test, or code that nothing can reach.
+5. **Document it, in English.** Update the package's `doc/` and, when a topic is added, the documentation table of
+   its README.
+6. **Pass the checks.** From the root of the monorepo, the quality checks run on every package — PHP-CS-Fixer,
+   Rector, PHPStan at its maximum level, deptrac, Arkitect, PHPUnit and Infection — and `composer packages` installs
+   each package on its own, checks its declared dependencies and runs its tests. A pull request is merged when
+   every check passes.
 
-* Check the [project documentation available online](README.md)
+To check a package on its own, from its directory:
 
-Then, if it appears that it's a real bug, you may report it using Github by following these 3 points:
-
-* Check if the bug is not [already reported](https://github.com/parler-haut-interagir-librement/enums/issues?q=is%3Aopen+is%3Aissue+label%3Abug)!
-* A clear title to resume the issue
-* A description of the workflow needed to reproduce the bug,
-
-> _NOTE:_ Don’t hesitate to give as much information as you can (OS, PHP version extensions...)
-
-## Pull Requests
-
-### Writing a Pull Request
-
-You should base your changes on the `main` branch.
-
-### Matching Coding Standards
-
-The Proclaim Honestly, Interact Liberally project follows [Symfony coding standards](https://symfony.com/doc/current/contributing/code/standards.html).
-But don't worry, you can fix CS issues automatically using the [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) tool:
-
-```bash
-castor fix-php
+```sh
+composer install
+vendor/bin/phpunit --no-configuration tests
 ```
 
-And then, add fixed file to your commit before push.
-Be sure to add only **your modified files**. 
-If another files are fixed by cs tools, just revert it before commit.
+## Licence
 
-### Sending a Pull Request
+By contributing, you agree to license your contribution under the MIT licence of the package, whose holder its
+[LICENSE](LICENSE) names.
 
-When you send a PR, just make sure that:
+## Code of conduct
 
-* You add valid test cases.
-* Tests are green.
-* Your PR must include some documentation
-* You make the PR on the same branch you based your changes on. If you see commits
-  that you did not make in your PR, you're doing it wrong.
-* Also don't forget to add a comment when you update a PR with a ping to 
-  [the maintainers](https://github.com/orgs/parler-haut-interagir-librement/people),
-  so he/she will get a notification.
-* Don't add `@author` doc blocks to the added code
-
-Fill in the header from the pull request template and confirm to create your pull
-request.
-
-If there are more than one commit in your PR, they will be automatically be squashed
-when the PR is accepted and merge.
-
-# License and Copyright Attribution
-
-When you open a Pull Request to the Enums project, you agree to license your
-code under the [MIT license](LICENSE) and to transfer the copyright on the submitted
-code to [Parler Haut Interagir Librement](https://github.com/parler-haut-interagir-librement).
-
-Be sure to you have the right to do that (if you are a professional, ask your company)!
-
-If you include code from another project, please mention it in the Pull Request
-description and credit the original author.
+Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md).

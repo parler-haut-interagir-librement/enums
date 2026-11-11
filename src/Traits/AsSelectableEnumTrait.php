@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
 
-use BackedEnum;
+use Phil\Enums\Internal\Cases;
 
 trait AsSelectableEnumTrait
 {
     /**
-     * Get an associative array of [case name => case value] or an indexed array [case name, case name] in the case of pure enums.
+     * The cases as choices: each value by name when the enum is backed, the list of names when it is pure.
      *
      * @return array<string, string|int>|list<string>
      */
     public static function options(): array
     {
-        $cases = static::cases();
-
-        return isset($cases[0]) && $cases[0] instanceof BackedEnum
-            ? array_column($cases, 'value', 'name')
-            : array_column($cases, 'name');
+        return Cases::options(static::cases());
     }
 }

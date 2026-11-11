@@ -7,10 +7,13 @@ namespace Phil\Enums\Traits;
 use BackedEnum;
 use ReflectionEnum;
 
+/**
+ * What kind of enum this is, asked of the enum itself: pure, or backed by integers or by strings.
+ */
 trait AsSelfAwareableEnumTrait
 {
     /**
-     * Determine whether the enum is pure.
+     * Whether the enum has no backing values.
      */
     public static function isPure(): bool
     {
@@ -18,7 +21,7 @@ trait AsSelfAwareableEnumTrait
     }
 
     /**
-     * Determine whether the enum is backed.
+     * Whether each case has a backing value.
      */
     public static function isBacked(): bool
     {
@@ -27,18 +30,18 @@ trait AsSelfAwareableEnumTrait
     }
 
     /**
-     * Determine whether the enum is backed by integer.
+     * Whether the backing values are integers.
      */
     public static function isBackedByInteger(): bool
     {
-        return 'int' === (string) (new ReflectionEnum(self::class))->getBackingType();
+        return 'int' === (string) new ReflectionEnum(self::class)->getBackingType();
     }
 
     /**
-     * Determine whether the enum is backed by string.
+     * Whether the backing values are strings.
      */
     public static function isBackedByString(): bool
     {
-        return 'string' === (string) (new ReflectionEnum(self::class))->getBackingType();
+        return 'string' === (string) new ReflectionEnum(self::class)->getBackingType();
     }
 }

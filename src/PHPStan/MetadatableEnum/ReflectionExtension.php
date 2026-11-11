@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Phil\Enums\PHPStan\MetadatableEnum;
 
+use Override;
 use Phil\Enums\Attribute\Meta;
 use Phil\Enums\Meta\AbstractMetaProperty;
+use Phil\Enums\PHPStan\VirtualMethod;
 use Phil\Enums\Traits\AsMetadatableEnumTrait;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionEnum;
 use PHPStan\Reflection\ClassReflection;
@@ -15,28 +17,36 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use ReflectionClassConstant;
 
-use function count;
-
-class ReflectionExtension implements MethodsClassReflectionExtension
+/**
+ * Tells PHPStan which accessors an enum using `AsMetadatableEnumTrait` answers — one per meta property its
+ * `#[Meta]`, or that of a trait it uses, enables — and what each returns: the property's `TValue`, with the type of
+ * its `defaultValue()` when some case does not carry it. Any other name stays an unknown method, as it fails at run
+ * time.
+ */
+final readonly class ReflectionExtension implements MethodsClassReflectionExtension
 {
     public function __construct(
-        private readonly ReflectionProvider $reflectionProvider,
+        private ReflectionProvider $reflectionProvider,
     ) {
     }
 
+    #[Override]
     public function hasMethod(ClassReflection $classReflection, string $methodName): bool
     {
         return null !== $this->metaPropertyFor($classReflection, $methodName);
     }
 
+    #[Override]
     public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
     {
         $metaProperty = $this->metaPropertyFor($classReflection, $methodName);
 
-        return new MetadatableMethodReflection(
+        return new VirtualMethod(
             $classReflection,
             $methodName,
+            false,
             null === $metaProperty ? new MixedType() : $this->valueType($classReflection, $metaProperty),
         );
     }
@@ -58,18 +68,21 @@ class ReflectionExtension implements MethodsClassReflectionExtension
             return null;
         }
 
-        $metaAttributes = $nativeReflection->getAttributes(Meta::class);
+        // Where the runtime reads them: the `Meta` attribute of the enum, then that of each trait it uses, so that
+        // an accessor PHPStan accepts is one that exists.
+        foreach ([$nativeReflection, ...array_values($nativeReflection->getTraits())] as $source) {
+            foreach ($source->getAttributes(Meta::class) as $attribute) {
+                $meta = $attribute->newInstance();
 
-        if ([] === $metaAttributes) {
-            return null;
-        }
+                if (!$meta instanceof Meta) {
+                    continue;
+                }
 
-        /** @var Meta $meta */
-        $meta = $metaAttributes[0]->newInstance();
-
-        foreach ($meta->metaProperties as $metaPropertyClass) {
-            if ($metaPropertyClass::method() === $methodName) {
-                return $metaPropertyClass;
+                foreach ($meta->metaProperties as $metaPropertyClass) {
+                    if ($metaPropertyClass::method() === $methodName) {
+                        return $metaPropertyClass;
+                    }
+                }
             }
         }
 
@@ -77,10 +90,8 @@ class ReflectionExtension implements MethodsClassReflectionExtension
     }
 
     /**
-     * Resolve what the accessor hands back: the meta property's `TValue`, unioned
-     * with whatever `defaultValue()` returns -- but only when some case can
-     * actually reach the default. An enum that attributes every one of its cases
-     * never falls back, so its accessor keeps the bare `TValue`.
+     * The type the accessor returns: the meta property's `TValue`, joined with the return type of its
+     * `defaultValue()` only when a case lacks the attribute and so falls back on it.
      *
      * @param class-string<AbstractMetaProperty<*>> $metaPropertyClass
      */
@@ -105,7 +116,7 @@ class ReflectionExtension implements MethodsClassReflectionExtension
 
         $variants = $metaClass->getNativeMethod('defaultValue')->getVariants();
 
-        if (1 !== count($variants)) {
+        if (1 !== \count($variants)) {
             return $valueType;
         }
 
@@ -113,8 +124,7 @@ class ReflectionExtension implements MethodsClassReflectionExtension
     }
 
     /**
-     * Whether every case of the enum carries $metaPropertyClass, making
-     * `defaultValue()` unreachable for it.
+     * Whether no case of the enum falls back on the default value of the meta property.
      *
      * @param class-string<AbstractMetaProperty<*>> $metaPropertyClass
      */
@@ -132,12 +142,6 @@ class ReflectionExtension implements MethodsClassReflectionExtension
             return false;
         }
 
-        foreach ($cases as $case) {
-            if ([] === $case->getAttributes($metaPropertyClass)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($cases, static fn (ReflectionClassConstant $case): bool => [] !== $case->getAttributes($metaPropertyClass));
     }
 }

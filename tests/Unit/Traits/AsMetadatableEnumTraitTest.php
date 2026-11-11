@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Tests\Unit\Traits;
 
+use BadMethodCallException;
 use Phil\Enums\Attribute\Description;
 use Phil\Enums\Attribute\Label;
-use Phil\Enums\Tests\Fixtures\MetaEnum;
+use Phil\Enums\Tests\Fixture\MetaEnum;
+use Phil\Enums\Traits\AsMetadatableEnumTrait;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ValueError;
@@ -14,36 +17,37 @@ use ValueError;
 /**
  * @internal
  */
+#[CoversTrait(AsMetadatableEnumTrait::class)]
 final class AsMetadatableEnumTraitTest extends TestCase
 {
     #[Test]
     public function metaPropertyIsAccessibleViaMagicCall(): void
     {
-        self::assertSame('Incomplete task', MetaEnum::INCOMPLETE->description());
-        self::assertSame('Completed', MetaEnum::COMPLETED->label());
+        self::assertSame('The water is cold', MetaEnum::COLD->description());
+        self::assertSame('Boiling', MetaEnum::BOILING->label());
     }
 
     #[Test]
     public function colorMetaPropertyAppliesTransform(): void
     {
-        self::assertSame('text-red-500', MetaEnum::INCOMPLETE->color());
-        self::assertSame('text-green-500', MetaEnum::COMPLETED->color());
+        self::assertSame('tone-blue', MetaEnum::COLD->color());
+        self::assertSame('tone-orange', MetaEnum::BOILING->color());
     }
 
     #[Test]
     public function caseWithoutAttributeReturnsDefaultValue(): void
     {
         // Description and Label default to null, Color default to null
-        self::assertNull(MetaEnum::CANCELED->description());
-        self::assertNull(MetaEnum::CANCELED->label());
-        self::assertNull(MetaEnum::CANCELED->color());
+        self::assertNull(MetaEnum::UNPLUGGED->description());
+        self::assertNull(MetaEnum::UNPLUGGED->label());
+        self::assertNull(MetaEnum::UNPLUGGED->color());
     }
 
     #[Test]
     public function tryFromMetaReturnsMatchingCase(): void
     {
-        $result = MetaEnum::tryFromMeta(new Description('Completed task'));
-        self::assertSame(MetaEnum::COMPLETED, $result);
+        $result = MetaEnum::tryFromMeta(new Description('The water boils'));
+        self::assertSame(MetaEnum::BOILING, $result);
     }
 
     #[Test]
@@ -55,7 +59,7 @@ final class AsMetadatableEnumTraitTest extends TestCase
     #[Test]
     public function fromMetaReturnsMatchingCase(): void
     {
-        self::assertSame(MetaEnum::INCOMPLETE, MetaEnum::fromMeta(new Label('Incomplete')));
+        self::assertSame(MetaEnum::COLD, MetaEnum::fromMeta(new Label('Cold')));
     }
 
     #[Test]
@@ -65,10 +69,24 @@ final class AsMetadatableEnumTraitTest extends TestCase
         MetaEnum::fromMeta(new Label('Unknown'));
     }
 
+    /**
+     * A misspelled accessor fails as an undefined method does, never as a missing value.
+     */
     #[Test]
-    public function undefinedMetaPropertyReturnsNull(): void
+    public function undefinedMetaPropertyFailsAsAnUndefinedMethod(): void
     {
-        // Calling a method that doesn't correspond to any registered meta property
-        self::assertNull(MetaEnum::INCOMPLETE->nonExistentMeta()); // @phpstan-ignore method.notFound
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessageIsOrContains('Call to undefined method '.MetaEnum::class.'::lable()');
+
+        MetaEnum::COLD->__call('lable', []);
+    }
+
+    #[Test]
+    public function fromMetaNamesTheValueItLookedFor(): void
+    {
+        $this->expectException(ValueError::class);
+        $this->expectExceptionMessageIsOrContains('Enum '.MetaEnum::class.' does not have a case with a meta property "'.Label::class.'" of value "Unknown"');
+
+        MetaEnum::fromMeta(Label::make('Unknown'));
     }
 }

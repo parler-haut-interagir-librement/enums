@@ -4,32 +4,35 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
 
-use BackedEnum;
 use Phil\Enums\Exceptions\UndefinedCaseError;
+use Phil\Enums\Internal\Cases;
+use UnitEnum;
 
+/**
+ * A case as its primitive — its value when the enum is backed, its name when it is pure — without `->value`: call
+ * the case (`$status()`), or call the enum by the case's name (`Status::PAID()`).
+ */
 trait AsInvocableEnumTrait
 {
-    /** Return the enum's value when it's $invoked(). */
+    /**
+     * The primitive of this case.
+     */
     public function __invoke(): string|int
     {
-        return $this instanceof BackedEnum ? $this->value : $this->name;
+        return Cases::primitive($this);
     }
 
     /**
-     * Return the enum's value or name when it's called ::STATICALLY().
+     * The primitive of the case named like the method called.
      *
-     * @param array<int, mixed> $args
+     * @param array<int, mixed> $args ignored: a case takes no argument
+     *
+     * @throws UndefinedCaseError when no case has that name
      */
     public static function __callStatic(string $name, array $args): string|int
     {
-        $cases = static::cases();
+        $case = array_find(self::cases(), static fn (UnitEnum $candidate): bool => $candidate->name === $name);
 
-        foreach ($cases as $case) {
-            if ($case->name === $name) {
-                return $case instanceof BackedEnum ? $case->value : $case->name; // @phpstan-ignore rector.noInstanceOfStaticReflection
-            }
-        }
-
-        throw new UndefinedCaseError(static::class, $name);
+        return null === $case ? throw new UndefinedCaseError(self::class, $name) : Cases::primitive($case);
     }
 }

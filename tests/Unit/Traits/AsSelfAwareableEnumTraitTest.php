@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Tests\Unit\Traits;
 
-use Phil\Enums\Tests\Fixtures\IntBackedEnum;
-use Phil\Enums\Tests\Fixtures\PureEnum;
-use Phil\Enums\Tests\Fixtures\StringBackedEnum;
+use Phil\Enums\Tests\Fixture\IntBackedEnum;
+use Phil\Enums\Tests\Fixture\PureEnum;
+use Phil\Enums\Tests\Fixture\StringBackedEnum;
+use Phil\Enums\Traits\AsSelfAwareableEnumTrait;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
+#[CoversTrait(AsSelfAwareableEnumTrait::class)]
 final class AsSelfAwareableEnumTraitTest extends TestCase
 {
     #[Test]

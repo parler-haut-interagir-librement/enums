@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
 
+use Phil\Enums\Internal\Cases;
+
 trait AsNameableEnumTrait
 {
     /**
-     * Get an array of case names.
+     * The names of the cases, in declaration order.
      *
      * @return list<string>
      */
     public static function names(): array
     {
-        /** @var list<string> */
-        return array_column(static::cases(), 'name');
+        return Cases::names(static::cases());
     }
 }

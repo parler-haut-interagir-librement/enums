@@ -5,51 +5,58 @@ declare(strict_types=1);
 namespace Phil\Enums\Traits;
 
 use Closure;
+use Phil\Enums\Internal\Cases;
+use UnitEnum;
 
+/**
+ * The cases written out as one string, one piece per case: by default the `<option>` elements of an HTML `<select>`,
+ * one per line.
+ */
 trait AsStringSelectableEnumTrait
 {
     use AsSelectableEnumTrait;
 
     /**
-     * Generate a string format of the enum options using the provided callback and glue.
+     * One piece per case, joined by the glue. The callback receives the case's name and its primitive as a string —
+     * its value when the enum is backed, its name when it is pure — and returns the piece.
+     *
+     * The default callback writes `<option value="…">…</option>`, the label made of the name's words (`IN_TRANSIT`
+     * and `InTransit` read `In transit`). **It escapes the value and the label for HTML**; a callback of your own
+     * returns text that is printed as it is, so it escapes what it writes into HTML itself.
      *
      * @param (Closure(string, string): string)|null $callback
      */
-    public static function stringOptions(?Closure $callback = null, string $glue = '\n'): string
+    public static function stringOptions(?Closure $callback = null, string $glue = "\n"): string
     {
-        $cases = static::cases();
+        $callback ??= static fn (string $name, string $value): string => \sprintf(
+            '<option value="%s">%s</option>',
+            self::escapeForHtml($value),
+            self::escapeForHtml(self::optionLabel($name)),
+        );
 
-        if ([] === $cases) {
-            return '';
-        }
+        return implode($glue, array_map(
+            static fn (UnitEnum $case): string => $callback($case->name, (string) Cases::primitive($case)),
+            static::cases(),
+        ));
+    }
 
-        $options = array_column($cases, 'value', 'name');
-
-        // Default callback
-        $callback ??= static function (string $name, string $value): string {
-            if (str_contains($name, '_')) {
-                // Snake case
-                $words = explode('_', $name);
-            } elseif (mb_strtoupper($name) === $name) {
-                // If the entire name is uppercase without underscores, it's a single word
-                $words = [$name];
-            } else {
-                // Pascal case or camel case
-                $split = preg_split('/(?=[A-Z])/', $name);
-
-                /** @var list<non-empty-string> $words */
-                $words = array_filter(
-                    false !== $split ? $split : [],
-                    static fn (string $word): bool => '' !== $word,
-                );
-            }
-
-            return '<option value="' . $value . '">' . ucfirst(mb_strtolower(implode(' ', $words))) . '</option>';
+    /**
+     * The words of a case name, as a sentence: split on underscores, or before each capital of a name in mixed case;
+     * a name all in capitals is one word.
+     */
+    private static function optionLabel(string $name): string
+    {
+        $words = match (true) {
+            str_contains($name, '_') => explode('_', $name),
+            mb_strtoupper($name) === $name => [$name],
+            default => preg_split('/(?=\p{Lu})/u', $name, -1, \PREG_SPLIT_NO_EMPTY),
         };
 
-        /** @var list<string> $result */
-        $result = array_map($callback, array_keys($options), array_values($options));
+        return ucfirst(mb_strtolower(implode(' ', false === $words ? [$name] : $words)));
+    }
 
-        return implode($glue, $result);
+    private static function escapeForHtml(string $text): string
+    {
+        return htmlspecialchars($text, \ENT_QUOTES | \ENT_SUBSTITUTE | \ENT_HTML5, 'UTF-8');
     }
 }

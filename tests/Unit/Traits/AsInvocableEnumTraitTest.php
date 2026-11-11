@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Phil\Enums\Tests\Unit\Traits;
 
 use Phil\Enums\Exceptions\UndefinedCaseError;
-use Phil\Enums\Tests\Fixtures\IntBackedEnum;
-use Phil\Enums\Tests\Fixtures\PureEnum;
+use Phil\Enums\Tests\Fixture\IntBackedEnum;
+use Phil\Enums\Tests\Fixture\PureEnum;
+use Phil\Enums\Traits\AsInvocableEnumTrait;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
+#[CoversTrait(AsInvocableEnumTrait::class)]
 final class AsInvocableEnumTraitTest extends TestCase
 {
     #[Test]
@@ -48,6 +51,16 @@ final class AsInvocableEnumTraitTest extends TestCase
     {
         $this->expectException(UndefinedCaseError::class);
         $this->expectExceptionMessageMatches('/NOPE/');
+
+        /** @phpstan-ignore staticMethod.notFound */
+        IntBackedEnum::NOPE();
+    }
+
+    #[Test]
+    public function anUndefinedCaseIsWordedAsAnUndefinedConstant(): void
+    {
+        $this->expectException(UndefinedCaseError::class);
+        $this->expectExceptionMessageIsOrContains('Undefined constant '.IntBackedEnum::class.'::NOPE');
 
         /** @phpstan-ignore staticMethod.notFound */
         IntBackedEnum::NOPE();

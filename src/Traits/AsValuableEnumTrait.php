@@ -4,22 +4,18 @@ declare(strict_types=1);
 
 namespace Phil\Enums\Traits;
 
-use BackedEnum;
+use Phil\Enums\Internal\Cases;
 
 trait AsValuableEnumTrait
 {
     /**
-     * Get an array of case values.
+     * The primitives of the cases, in declaration order: their values when the enum is backed, their names when it
+     * is pure.
      *
      * @return list<string|int>
      */
     public static function values(): array
     {
-        $cases = static::cases();
-
-        /** @var list<string|int> */
-        return isset($cases[0]) && $cases[0] instanceof BackedEnum
-            ? array_column($cases, 'value')
-            : array_column($cases, 'name');
+        return Cases::primitives(static::cases());
     }
 }

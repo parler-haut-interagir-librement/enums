@@ -7,14 +7,18 @@ namespace Phil\Enums\Tests\Unit\Meta;
 use Phil\Enums\Attribute\Description;
 use Phil\Enums\Attribute\Group;
 use Phil\Enums\Attribute\Label;
-use Phil\Enums\Tests\Fixtures\Attribute\Color;
+use Phil\Enums\Meta\AbstractMetaProperty;
+use Phil\Enums\Tests\Fixture\Attribute\Color;
+use Phil\Enums\Tests\Fixture\Attribute\Shade;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-final class AbstractMetaPropertyTest extends TestCase // @phpstan-ignore symplify.explicitAbstractPrefixName
+#[CoversClass(AbstractMetaProperty::class)]
+final class AbstractMetaPropertyTest extends TestCase
 {
     #[Test]
     public function constructorStoresValue(): void
@@ -26,8 +30,8 @@ final class AbstractMetaPropertyTest extends TestCase // @phpstan-ignore symplif
     #[Test]
     public function transformIsApplied(): void
     {
-        $color = new Color('red');
-        self::assertSame('text-red-500', $color->value);
+        $color = new Color('blue');
+        self::assertSame('tone-blue', $color->value);
     }
 
     #[Test]
@@ -39,8 +43,7 @@ final class AbstractMetaPropertyTest extends TestCase // @phpstan-ignore symplif
     #[Test]
     public function makeCreatesNewInstance(): void
     {
-        $desc = new Description('first');
-        $description = $desc->make('second');
+        $description = Description::make('second');
 
         self::assertSame('second', $description->value);
         self::assertInstanceOf(Description::class, $description);
@@ -57,8 +60,23 @@ final class AbstractMetaPropertyTest extends TestCase // @phpstan-ignore symplif
     #[Test]
     public function methodReturnsCustomNameWhenOverridden(): void
     {
-        // Color overrides customMethodName() — we don't know if it does,
-        // but by default it falls back to lcfirst of short class name
+        // Color does not override customMethodName(): its accessor is its short class name, first letter lowered.
         self::assertSame('color', Color::method());
+    }
+
+    /**
+     * `make()` is static, so a value is looked up as `Label::make('Draft')`, and transformed as the constructor does.
+     */
+    #[Test]
+    public function makeIsCalledStaticallyAndTransforms(): void
+    {
+        self::assertSame('Draft', Label::make('Draft')->value);
+        self::assertSame('tone-teal', Color::make('teal')->value);
+    }
+
+    #[Test]
+    public function aCustomMethodNameNamesTheAccessor(): void
+    {
+        self::assertSame('tint', Shade::method());
     }
 }
